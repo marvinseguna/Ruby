@@ -50,7 +50,8 @@ end
 
 def main
 	#sentence = read_file "Resources\\Gift_Giving.madlib"
-	sentence = read_file "Resources\\Lunch_Hungers.madlib"
+	#sentence = read_file "Resources\\Lunch_Hungers.madlib"
+	sentence = read_file "Resources\\Wash_Face.madlib"
 	keywords = extract_fillings sentence
 	puts form_new_sentence sentence, keywords
 end
