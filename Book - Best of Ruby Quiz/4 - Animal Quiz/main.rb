@@ -1,3 +1,5 @@
+require 'set'
+
 class String
 	def strip
 		self.gsub("\n", "").gsub("\r", "")
@@ -8,8 +10,8 @@ def read_animals_file( file )
 	File.readlines(file).each{ |line| 
 		matches = line.strip.scan(/([a-zA-Z]+):\s\[(.*)\]/).first
 		assign_attributes matches[0], matches[1] #property = animals
-		@animals[matches[0]] = (matches[1].empty? ? ["na"] : matches[1].split(","))
-		@animals_original[matches[0]] = (matches[1].empty? ? ["na"] : matches[1].split(","))
+		@animals[matches[0]] = (matches[1].empty? ? Set.new(["na"]) : (Set.new matches[1].split(",")))
+		@animals_original[matches[0]] = (matches[1].empty? ?  (Set.new ["na"]) : (Set.new matches[1].split(",")))
 	}
 end
 
@@ -41,18 +43,18 @@ def try_guessing
 		question = get_user_response "Give me a question to distinguish between #{@animals.keys[index]} and #{animal}"
 		answer = get_user_response "(For: #{@animals.keys[index]}) What is the answer to that question? (y/n)"
 		
-		File.open('Resources/questions.txt', "a+"){ |f| f.write "#{question}\n" } if !@questions.include? question
-		@questions.push question if !@questions.include? question
+		File.open('Resources/questions.txt', "a+"){ |f| f.write "#{question}\n" } 
+		@questions.add question 
 		
 		if answer.include? 'n'
-			(@animals_original.keys.include? animal) ? (@animals_original[animal].push question) : (@animals_original[animal] = [question])
+			(@animals_original.keys.include? animal) ? (@animals_original[animal].add question) : (@animals_original[animal] = Set.new [question])
 		else
-			@animals_original[@animals.keys[index]].push question
-			@evidences.each{ |evidence| @animals_original[@animals.keys[index]].push evidence if !@animals_original[@animals.keys[index]].include? evidence }
+			@animals_original[@animals.keys[index]].add question
+			@evidences.each{ |evidence| @animals_original[@animals.keys[index]].add evidence }
 		end
-		@animals_original[animal] = [] if !@animals_original.keys.include? animal
-		@evidences.each{ |evidence| @animals_original[animal].push evidence if !@animals_original[animal].include? evidence }
-		File.open('Resources/animals.txt', 'w'){ |f| @animals_original.each{ |k, v| f.write k + ': [' + v.join(",") + "]\n" } }
+		@animals_original[animal] = Set.new if !@animals_original.keys.include? animal
+		@evidences.each{ |evidence| @animals_original[animal].add evidence }
+		File.open('Resources/animals.txt', 'w'){ |f| @animals_original.each{ |k, v| f.write k + ': [' + v.to_a.join(",") + "]\n" } }
 	else
 		puts "Haha! Got you!"
 	end
@@ -60,9 +62,9 @@ end
 
 def input_new_animal
 	animal = get_user_response "Ok, I give up. What was the animal?"
-	@animals_original[animal] = []
-	@evidences.each{ |evidence| @animals_original[animal].push evidence if !@animals_original[animal].include? evidence }
-	File.open('Resources/animals.txt', 'w'){ |f| @animals_original.each{ |k, v| f.write k + ': [' + v.join(",") + "]\n" } }
+	@animals_original[animal] = Set.new []
+	@evidences.each{ |evidence| @animals_original[animal].add evidence }
+	File.open('Resources/animals.txt', 'w'){ |f| @animals_original.each{ |k, v| f.write k + ': [' + v.to_a.join(",") + "]\n" } }
 end
 
 def guess
@@ -84,12 +86,12 @@ end
 
 def init
 	@attributes = {}
-	@questions = []
+	@questions = Set.new
 	@animals = {}
 	@animals_original = {}
 	@evidences = []
 
-	File.open('Resources/questions.txt', 'r').each_line{ |line| @questions.push line.strip }
+	File.open('Resources/questions.txt', 'r').each_line{ |line| @questions.add line.strip }
 	read_animals_file 'Resources/animals.txt'
 	puts "\nThink of an animal..\n\n"
 	guess
