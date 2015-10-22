@@ -37,15 +37,6 @@ def get_other_possibilities
 	}
 end
 
-def print_top_5
-	count = 0
-	(@final_six_stem.sort_by { |k, v| v }).reverse.each{ |k, v| 
-		puts "#{k} : #{v}points"
-		count += 1
-		break if count == 5
-	}
-end
-
 def main
 	@cutoff = ARGV[0]
 	init_dictionary
@@ -54,7 +45,7 @@ def main
 	get_cutoff_stems
 	get_other_possibilities
 	
-	print_top_5
+	(@final_six_stem.sort_by { |k, v| v }).reverse[0..5].each{ |k, v| puts "#{k} : #{v}points" }
 end
 
 main
