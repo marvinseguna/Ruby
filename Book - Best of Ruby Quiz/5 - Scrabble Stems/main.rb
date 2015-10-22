@@ -48,5 +48,5 @@ def main
 	(@final_six_stem.sort_by { |k, v| v }).reverse[0..5].each{ |k, v| puts "#{k} : #{v}points" }
 end
 
-main
+ARGV[0] == nil ? (puts "\nYou forgot to pass the cutoff!\n") : main
 
