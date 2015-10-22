@@ -1,14 +1,8 @@
 require 'set'
 
-class String
-	def strip
-		self.gsub("\n", "").gsub("\r", "")
-	end
-end
-
 def read_animals_file( file )
 	File.readlines(file).each{ |line| 
-		matches = line.strip.scan(/([a-zA-Z]+):\s\[(.*)\]/).first
+		matches = line.chomp.scan(/([a-zA-Z]+):\s\[(.*)\]/).first
 		assign_attributes matches[0], matches[1] #property = animals
 		@animals[matches[0]] = (matches[1].empty? ? Set.new(["na"]) : (Set.new matches[1].split(",")))
 		@animals_original[matches[0]] = (matches[1].empty? ?  (Set.new ["na"]) : (Set.new matches[1].split(",")))
@@ -33,7 +27,7 @@ end
 
 def get_user_response( question )
 	puts question 
-	return gets.strip
+	return gets.chomp
 end
 
 def try_guessing
@@ -91,7 +85,7 @@ def init
 	@animals_original = {}
 	@evidences = []
 
-	File.open('Resources/questions.txt', 'r').each_line{ |line| @questions.add line.strip }
+	File.open('Resources/questions.txt', 'r').each_line{ |line| @questions.add line.chomp }
 	read_animals_file 'Resources/animals.txt'
 	puts "\nThink of an animal..\n\n"
 	guess
@@ -100,7 +94,7 @@ end
 def main
 	init
 	
-	while (get_user_response "\nWant to play again? (y/n)").strip.include? 'y'
+	while (get_user_response "\nWant to play again? (y/n)").chomp.include? 'y'
 		puts '-----------------------------------------------------'
 		init
 	end
