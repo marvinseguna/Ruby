@@ -1,3 +1,5 @@
+#NOT FINISHED
+
 class Regexp
 	def self.build( *params )
 		params.each{ |param| 
