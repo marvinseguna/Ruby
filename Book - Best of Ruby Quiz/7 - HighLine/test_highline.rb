@@ -56,12 +56,12 @@ class TestHighline < Test::Unit::TestCase
 	end
 	
 	def test_integer_less
-		assert_equal true, @highline.handle_integer( '2', :less => 3 )
+		assert_equal true, @highline.handle_integer( '2', :smaller => 3 )
 		
 		value = '3'
-		greater_value = 1
-		assert_raise( ArgumentError, "Value [#{value}] must be smaller than #{greater_value}!" ) do
-			@highline.handle_integer value, :smaller => greater_value
+		smaller_value = 1
+		assert_raise( ArgumentError, "Value [#{value}] must be smaller than #{smaller_value}!" ) do
+			@highline.handle_integer value, :smaller => smaller_value
 		end
 	end
  
