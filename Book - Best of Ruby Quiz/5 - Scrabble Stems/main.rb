@@ -11,23 +11,29 @@ def init_dictionary
 end
 
 def get_possible_stems
-	@dictionary.each{ |word| (@possible_stems ||= []).push word if !word.scan(/[#{Regexp.quote(@cutoff)}]/).empty? }
+	@dictionary.each{ |word| (@possible_stems ||= []).push word 
+		if !word.scan(/[#{Regexp.quote(@cutoff)}]/).empty? #if the word contains at least 1 character from cutoff
+			(@possible_stems ||= []).push word
+		end
+	}
 end
 
 def get_cutoff_stems
 	@six_stem = Set.new
 	@possible_stems.each{ |stem|
 		included_cutoffs = stem.scan(/[#{Regexp.quote(@cutoff)}]/)
-		@cutoff.split("").each{ |letter| 
-			next if included_cutoffs.include? letter
+		@cutoff.split("").each{ |letter| #exhaust each word by inserting the cutoff and checking if new form word exists in dictionary
+			next		if included_cutoffs.include? letter
 			new_word = stem.sub(included_cutoffs[0], letter).sort #replace only 1st occurrance
-			(@dictionary.include? new_word) ? (included_cutoffs.push letter) : break
+			
+			break		if @dictionary.include? new_word
+			included_cutoffs.push letter
 		}
-		@six_stem.add stem.sub(included_cutoffs[0], "") if included_cutoffs.sort.join == @cutoff.sort
+		@six_stem.add stem.sub(included_cutoffs[0], "")		if included_cutoffs.sort.join == @cutoff.sort #if word includes all cutoffs
 	}
 end
 
-def get_other_possibilities
+def get_other_possibilities #get extra cutoffs other than the one specified for extra points
 	@final_six_stem = {}
 	@six_stem.each{ |stem| 
 		@final_six_stem[stem] = @cutoff.length
@@ -48,5 +54,8 @@ def main
 	(@final_six_stem.sort_by { |k, v| v }).reverse[0..5].each{ |k, v| puts "#{k} : #{v}points" }
 end
 
-ARGV[0] == nil ? (puts "\nYou forgot to pass the cutoff!\n") : main
-
+if ARGV[0] == nil
+	raise "\nYou forgot to pass the cutoff!\n")
+else
+	main
+end

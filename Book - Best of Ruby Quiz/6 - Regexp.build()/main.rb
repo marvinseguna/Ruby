@@ -26,7 +26,11 @@ class Regexp
 				
 				break if new_number.send(op_comp, sec_bound)
 				
-				negation == 0 ? (self.insert_regex Range, prim_bound..new_number - 1 ) : (self.insert_regex Range, new_number..prim_bound)
+				if negation == 0
+					self.insert_regex Range, prim_bound..new_number - 1
+				else
+					self.insert_regex Range, new_number..prim_bound
+				end
 				
 				prim_bound = new_number - negation
 			end
@@ -48,6 +52,21 @@ class Regexp
 		end
 	end
 	
+	def self.process_range( first, second )
+		for i in x..first.length - 1
+			if first[i] == second[i]
+				@final_regex << first[i]
+			else
+				@final_regex << "0*"	if first.length == 1
+				if i == 0 and !first.length == 1
+					@final_regex << "[#{first[i]}#{second[i]}]"
+				else
+					@final_regex << "[#{first[i]}-#{second[i]}]")
+				end
+			end
+		end
+	end
+	
 	def self.insert_regex( type, param )
 		if type == Range
 			first = param.first.to_s
@@ -59,14 +78,7 @@ class Regexp
 				x += 1
 			end
 			
-			for i in x..first.length - 1
-				if first[i] == second[i]
-					@final_regex << first[i]
-				else
-					@final_regex << "0*"	if first.length == 1
-					(i == 0 and !first.length == 1) ? (@final_regex << "[#{first[i]}#{second[i]}]") : (@final_regex << "[#{first[i]}-#{second[i]}]")
-				end
-			end
+			process_range first, second
 		else
 			for i in 0..param.to_s.length - 1
 				@final_regex << "[#{param.to_s[i]}]"
@@ -85,16 +97,11 @@ class String
 	end
 end
 
-def main
-	lucky = Regexp.build(3,7)
-	# month = Regexp.build(1..12)
-	# day = Regexp.build(1..31)
-	# year = Regexp.build(98,99,2000..2005)
-	# time = Regexp.build(0..23)
-	
-	"7" =~ lucky
-	"13" =~ lucky
-end
+lucky = Regexp.build(3,7)
+# month = Regexp.build(1..12)
+# day = Regexp.build(1..31)
+# year = Regexp.build(98,99,2000..2005)
+# time = Regexp.build(0..23)
 
-
-main
+"7" =~ lucky
+"13" =~ lucky

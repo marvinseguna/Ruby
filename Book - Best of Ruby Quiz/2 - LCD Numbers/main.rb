@@ -53,13 +53,9 @@ def format_display
 	} 
 end
 
-def main( args )
-	size = get_size args			#2
-	numbers = get_numbers args		#1378
-	@display = init_array size, numbers
-	
-	fill_array size, numbers
-	format_display
-end
+size = get_size ARGV			#2
+numbers = get_numbers ARGV		#1378
+@display = init_array size, numbers
 
-main ARGV
+fill_array size, numbers
+format_display
