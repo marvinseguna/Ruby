@@ -1,61 +1,59 @@
 class String
-	def strip
+	def strip #remove all spaces - used only in alias-case
 		gsub(/\s+/, "")
 	end
 end
 
-def read_file( file )
-	File.read(file)
-end
-
-def extract_fillings( sentence )
-	keywords = sentence.scan(/\(\(([a-zA-z\s:,]*)\)\)/)
-	keywords.empty? ? (raise "Nothing to replace!") : (keywords)
-end
-
-def check_hash( req, reusables )
-	unless reusables.empty?
-		return reusables.keys.include? req
+def extract_reqs #extracts all reqs for sentence
+	keywords = @sentence.scan(/\(\(([a-zA-z\s:,]*)\)\)/)
+	
+	if keywords.empty?
+		raise "Nothing to replace!"
+	else
+		keywords
 	end
+end
+
+def check_hash( req, reusables ) #check if alias already exists
+	return reusables.keys.include? req		unless reusables.empty?
+	
 	false
 end
 
-def form_new_sentence( sentence, keywords )
+def ask( question, keyword, reusables ) #asks user for input [and inserts it in hash (if required)]
+	puts question
+	replacable = gets.chomp
+	
+	@sentence.sub! "((#{keyword}))", replacable
+	reusables[keyword.strip.split(':')[0]] = replacable		if keyword.include? ':'
+	reusables
+end
+
+def form_new_sentence( keywords ) #loops on each keyword for replacement
 	reusables = {}
 	
 	keywords.each{ |keyword| 
-		add_hash = 0
 		keyword = keyword.first
 		req = keyword
 		
 		if keyword.include? ':'
-			split_keyword = keyword.strip.split(':')
-			raise "Error in sentence! Re-usable - #{split_keyword[0]} - already exists!" if check_hash split_keyword[0], reusables
-			req = split_keyword[1]
-			add_hash = 1
-		elsif not reusables.empty?
-			if check_hash req, reusables
-				sentence = sentence.sub! "((#{req}))", reusables[req]
-				next
+			split_keyword = keyword.strip.split ':'
+			if check_hash split_keyword[0], reusables #if alias already exists in hash
+				raise "Error in sentence! Alias - #{split_keyword[0]} - already exists!" 
 			end
+			req = split_keyword[1]
+		elsif not reusables.empty? and check_hash req, reusables #if alias is found in hash, no need to ask for user input
+			@sentence.sub! "((#{req}))", reusables[req]
+			next #substitute and return
 		end
-		puts "Provide #{req}"
-		replacable = gets.delete!("\r\n")
-		sentence = sentence.sub! "((#{keyword}))", replacable
-		reusables[keyword.strip.split(':')[0]] = replacable if add_hash == 1 
+		
+		reusables = ask "Provide #{req}", keyword, reusables
 	}
-	sentence
+	@sentence
 end
 
 
-def main
-	#sentence = read_file "Resources\\Gift_Giving.madlib"
-	#sentence = read_file "Resources\\Lunch_Hungers.madlib"
-	# sentence = read_file "Resources\\Wash_Face.madlib"
-	sentence = read_file "Resources\\Owner.madlib"
-	keywords = extract_fillings sentence
-	puts form_new_sentence sentence, keywords
-end
-
-main
+@sentence = File.read "Resources/Gift_Giving.madlib"
+keywords = extract_reqs 
+puts form_new_sentence keywords
 
