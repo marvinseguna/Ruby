@@ -31,6 +31,8 @@ class Highline
 		case type
 		when :integer
 			return handle_integer response, filters
+		when :string
+			return handle_string response, filters
 		end
 	end
 	
