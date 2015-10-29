@@ -9,14 +9,12 @@ class String
 			case filter
 			when :upper
 				self.each_char{ |c| found = true		if c == c.upcase }
-				return true		if !found
 			when :lower
 				self.each_char{ |c| found = true		if c == c.downcase }
-				return true		if !found
 			when :number
 				self.each_char{ |c| found = true		if ( c =~ /\d/ ) != nil }
-				return true		if !found
 			end
+			return true		if !found
 		}
 		false
 	end

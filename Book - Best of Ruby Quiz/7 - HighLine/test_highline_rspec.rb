@@ -13,7 +13,7 @@ describe '#string' do
 	end
 	
 	it 'must have specific characters' do
-		expect( highline.handle_string 'LolKekbur11', :include => [ :uppercase, :lowercase, :number] ).to be true
+		expect( highline.handle_string 'LolKekbur11', :include => [ :upper, :lower, :number] ).to be true
 	end
 	
 	it 'does not have the required characters' do
