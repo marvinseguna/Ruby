@@ -3,6 +3,10 @@ class String
 		(self =~ /\A[-+]?[0-9]+\z/) == nil
 	end
 	
+	def is_not_a_float
+		 false		if Float self		rescue true
+	end
+	
 	def does_not_have_all( filters )
 		filters.each{ |filter| 
 			found = false
@@ -22,10 +26,14 @@ end
 
 class Highline
 	
-	def ask( question, type, filters = nil )
+	def get_user_response( question )
 		puts question
-		response = gets.chomp
+		return gets.chomp
+	end
 	
+	def ask( question, type, filters = nil )
+		response = get_user_response question
+		
 		case type
 		when :integer
 			return handle_integer response, filters
@@ -62,10 +70,26 @@ class Highline
 				raise ArgumentError, "String contains undesirable characters!"		if filters[:exclude].any? { |c| response.include? c }
 			when :include
 				raise ArgumentError, "String character requirements not met!"		if response.does_not_have_all filters[:include]
+			when :length
+				raise ArgumentError, "String does not have required length"			if response.length != filters[:length]
+			when :validate
+				raise ArgumentError, "String does not match with the regex"			if ( response =~ filters[:validate] ) == nil
 			end
 		end
 	
 		true
+	end
+	
+	def handle_float( response, filters = nil )
+		raise ArgumentError, "Provided string is not a float"		if response.is_not_a_float
+		
+		true
+	end
+	
+	def ask_if( question )
+		response = get_user_response question + " (y/n)"
+		return true		if response.downcase == 'y'
+		false
 	end
 	
 end

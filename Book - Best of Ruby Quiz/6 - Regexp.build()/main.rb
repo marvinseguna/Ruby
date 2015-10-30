@@ -61,7 +61,7 @@ class Regexp
 				if i == 0 and !first.length == 1
 					@final_regex << "[#{first[i]}#{second[i]}]"
 				else
-					@final_regex << "[#{first[i]}-#{second[i]}]")
+					@final_regex << "[#{first[i]}-#{second[i]}]"
 				end
 			end
 		end

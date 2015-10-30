@@ -19,4 +19,20 @@ describe '#string' do
 	it 'does not have the required characters' do
 		expect{ highline.handle_string 'LolKekbur', :include => [ :upper, :lower, :number]}.to raise_error(ArgumentError, 'String character requirements not met!')
 	end
+	
+	it 'must have exact length' do
+		expect( highline.handle_string 'kek', :length => 3).to be true
+	end
+	
+	it 'does not have required length' do
+		expect{ highline.handle_string 'kekbur', :length => 3}.to raise_error(ArgumentError, 'String does not have required length')
+	end
+	
+	it 'matches regex' do
+		expect( highline.handle_string 'hello', :validate => /^hello$/).to be true
+	end
+	
+	it 'does not match regex' do
+		expect{ highline.handle_string 'bye', :validate => /^hello$/}.to raise_error(ArgumentError, 'String does not match with the regex')
+	end
 end
