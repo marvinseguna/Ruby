@@ -21,16 +21,36 @@ end
 
 def get_roman_value( arabic )
 	raise ArgumentError, 'Invalid argument [get_roman_value]'		if arabic.to_s.is_not_an_integer
-	raise ArgumentError, 'Invalid argument [get_roman_value]'		if arabic.to_i <= 0
+	arabic = arabic.to_i
+	raise ArgumentError, 'Invalid argument [get_roman_value]'		if arabic <= 0
 	multiple = '1' +  '0' * ( arabic.to_s.length - 1 )
-	raise ArgumentError, 'Invalid argument [get_roman_value]'		if arabic.to_i % multiple.to_i != 0
+	raise ArgumentError, 'Invalid argument [get_roman_value]'		if arabic % multiple.to_i != 0
 	
 	roman_keys = ROMAN_LETTERS.keys.reverse
+	roman_values = ROMAN_LETTERS.values
 	index = 0
-	# while arabic > 0
-		# arabic_clone = arabic - ROMAN_LETTERS[roman_keys[index]]
-		# reduction_check arabic_clone		if arabic_clone < 0
-	# end
+	roman = ''
+	while arabic > 0
+		if roman_values.include? arabic
+			ROMAN_LETTERS.each{ |key, value| roman << key.to_s		if value == arabic }
+			arabic = 0
+			next
+		end
+	
+		arabic_clone = arabic - ROMAN_LETTERS[roman_keys[index]]
+		reduction = reduction_check arabic_clone, roman_keys		if arabic_clone < 0
+	
+		if reduction.to_s != ''
+			roman << ( reduction + roman_keys[index].to_s )
+			arabic = 0
+		elsif arabic_clone < 0
+			index = index + 1
+		elsif arabic_clone >= 0
+			arabic = arabic_clone
+			roman << roman_keys[index].to_s
+		end
+	end
+	roman
 end
 
 def reduction_check( arabic, roman_letters )
@@ -42,3 +62,9 @@ def reduction_check( arabic, roman_letters )
 	}
 	return ''
 end
+
+roman = ''
+get_splitted_value( 4999 ).each{ |value|
+	roman << get_roman_value( value )
+}
+puts roman
