@@ -10,3 +10,12 @@ def arabic_to_roman( arabic, roman_s = '' )
 	}
 	roman_s
 end
+
+def roman_to_arabic( roman_s, arabic = 0 )
+	raise ArgumentError, 'Invalid argument [roman_to_arabic]'		if roman_s.class != String
+	ROMAN_LETTERS.keys.sort_by(&:length).reverse.each{ |roman|
+		arabic = arabic + ( roman_s.scan roman ).length * ROMAN_LETTERS[roman] 
+		roman_s.gsub! roman, ''
+	}
+	arabic
+end
