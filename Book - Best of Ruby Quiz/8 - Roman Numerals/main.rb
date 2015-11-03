@@ -19,3 +19,13 @@ def roman_to_arabic( roman_s, arabic = 0 )
 	}
 	arabic
 end
+
+answers = []
+File.readlines('Resources/Numerals.txt').each{ |line| 
+	if line.scan( /^\d+$/ ).empty? 
+		answers.push roman_to_arabic line
+	else
+		answers.push arabic_to_roman line.to_i 
+	end
+}
+puts answers
