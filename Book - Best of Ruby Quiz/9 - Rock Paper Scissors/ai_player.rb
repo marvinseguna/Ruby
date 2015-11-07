@@ -46,7 +46,7 @@ class YourPlayer < Player
 	
 	def second_strategy
 		mappings = { :rock => '1', :paper => '2', :scissors => '3'}
-		val_map = mappings[@my_last_option]
+		val_map = mappings[@opp_last_option]
 		final = {}
 		
 		case @result
@@ -57,11 +57,8 @@ class YourPlayer < Player
 		when :draw
 			@opp_tie.each{ |key, value|	final[key] = value if key.start_with? val_map }
 		end
-		puts @opp_los
-		puts @opp_tie
-		puts @opp_win
 		number_hand = final.sort_by{ |key, value| value }.reverse.first.first[1]
-		mappings.key number_hand
+		mappings.each{ |key, value| return cycle key		if value == number_hand }
 	end
 	
 	def first_strategy
@@ -73,8 +70,8 @@ class YourPlayer < Player
 		end
 	end
 	
-	def cycle
-		case @my_last_option
+	def cycle( option = @my_last_option )
+		case option
 		when :rock
 			return :paper
 		when :paper
