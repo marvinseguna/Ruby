@@ -28,7 +28,7 @@ class YourPlayer < Player
 		else
 			return second_possibility if first_possibility != second_possibility
 		end
-		return first_possibility
+		first_possibility
 	end
 
 	def result( your_choice, opponents_choice, win_lose_or_draw )
@@ -64,20 +64,20 @@ class YourPlayer < Player
 	def first_strategy
 		if @result == :won
 			return cycle		if @round % 2 == 0
-			return @my_last_option
+			@my_last_option
 		else #tie/lost
-			return cycle
+			cycle
 		end
 	end
 	
 	def cycle( option = @my_last_option )
 		case option
 		when :rock
-			return :paper
+			:paper
 		when :paper
-			return :scissors
+			:scissors
 		when :scissors
-			return :rock
+			:rock
 		end
 	end
 	
