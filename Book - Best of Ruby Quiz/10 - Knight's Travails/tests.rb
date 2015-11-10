@@ -58,11 +58,11 @@ describe '#get_lowest_F' do
 	end
 end
 
-describe '#get_cell_names' do
+describe '#get_cell_name' do
 
 	context 'provided with a valid cell' do
 		it 'returns the respective cell name (e2)' do
-			expect( get_cell_names 64 ).to eq 'e2'
+			expect( get_cell_name 64 ).to eq 'e2'
 		end
 	end
 end
