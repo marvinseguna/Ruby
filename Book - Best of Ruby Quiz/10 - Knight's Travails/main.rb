@@ -34,7 +34,7 @@ def get_valid_moves( cell )
 		y_move = y + incrementals[index + 1]
 		if (0..7).include? x_move and (0..7).include? y_move
 			valid_cell = x_move * 10 + y_move
-			valid_moves.push x_move * 10 + y_move if !@prohibited.include? valid_cell
+			valid_moves.push valid_cell		if !@prohibited.include? valid_cell
 		end
 	}
 	valid_moves
@@ -63,11 +63,11 @@ def find_target( starting, ending, g = 0 )
 	childs = get_valid_moves starting
 	
 	childs.each{ |cell|
-		if @open_list.keys.include? cell
+		if @open_list.keys.include? cell #if already included, reset parent if value is less than original
 			@open_list[cell] = [ starting, g + 3, get_F( cell, g + 3 )]		if g + 3 < @open_list[cell][1]
-		elsif @closed_list.keys.include? cell
+		elsif @closed_list.keys.include? cell #if value is in closed list, don't do anything
 			childs.delete cell
-		else
+		else #add new cell to openlist
 			@open_list[cell] = [ starting, g + 3, get_F( cell, g + 3 )]
 		end
 	}
