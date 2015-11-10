@@ -1,6 +1,3 @@
-#to implement:
-#prohibited locations
-
 MAPS_LETTERS = { 'A' => 0, 'B' => 1, 'C' => 2, 'D' => 3, 'E' => 4, 'F' => 5, 'G' => 6, 'H' => 7 }
 
 def get_destination( cell )
@@ -35,7 +32,10 @@ def get_valid_moves( cell )
 	( 0..incrementals.length - 1 ).step( 2 ).each{ |index|
 		x_move = x + incrementals[index]
 		y_move = y + incrementals[index + 1]
-		valid_moves.push x_move * 10 + y_move		if (0..7).include? x_move and (0..7).include? y_move
+		if (0..7).include? x_move and (0..7).include? y_move
+			valid_cell = x_move * 10 + y_move
+			valid_moves.push x_move * 10 + y_move if !@prohibited.include? valid_cell
+		end
 	}
 	valid_moves
 end
@@ -74,6 +74,7 @@ def find_target( starting, ending, g = 0 )
 	
 	@closed_list[starting] = @open_list[starting]
 	@open_list.delete starting
+	return		if @open_list.empty?
 	val_with_lowest_F = @open_list.sort_by{ |key, value| value[1] }.first[0]
 	
 	find_target val_with_lowest_F, ending, @open_list[val_with_lowest_F][1]
@@ -86,10 +87,10 @@ end
 
 starting = get_destination ARGV[0]
 ending = get_destination ARGV[1]
-prohibited = []
+@prohibited = []
 for i in 2..ARGV.length - 1
-	prohibited.push get_destination ARGV[i]
+	@prohibited.push get_destination ARGV[i]
 end
 set_H ending
 find_target starting, ending
-puts get_final_path ending
+@open_list.empty? ? ( puts "You think I'm Chuck Norris?" ) : ( puts get_final_path ending )
