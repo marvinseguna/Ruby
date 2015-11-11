@@ -24,7 +24,7 @@ def set_H( ending )# 8x8 board. H - distance each cell has from end point
 	@h
 end
 
-def get_valid_moves( cell )
+def get_valid_moves( cell, prohibited = @prohibited )
 	x = cell / 10
 	y = cell % 10
 	valid_moves = []
@@ -34,7 +34,7 @@ def get_valid_moves( cell )
 		y_move = y + incrementals[index + 1]
 		if (0..7).include? x_move and (0..7).include? y_move
 			valid_cell = x_move * 10 + y_move
-			valid_moves.push valid_cell		if !@prohibited.include? valid_cell
+			valid_moves.push valid_cell		if !prohibited.include? valid_cell
 		end
 	}
 	valid_moves
@@ -82,15 +82,15 @@ end
 
 
 #prep
-@open_list = {}
-@closed_list = {}
+# @open_list = {}
+# @closed_list = {}
 
-starting = get_destination ARGV[0]
-ending = get_destination ARGV[1]
-@prohibited = []
-for i in 2..ARGV.length - 1
-	@prohibited.push get_destination ARGV[i]
-end
-set_H ending
-find_target starting, ending
-@open_list.empty? ? ( puts "You think I'm Chuck Norris?" ) : ( puts get_final_path ending )
+# starting = get_destination ARGV[0]
+# ending = get_destination ARGV[1]
+# @prohibited = []
+# for i in 2..ARGV.length - 1
+	# @prohibited.push get_destination ARGV[i]
+# end
+# set_H ending
+# find_target starting, ending
+# @open_list.empty? ? ( puts "You think I'm Chuck Norris?" ) : ( puts get_final_path ending )

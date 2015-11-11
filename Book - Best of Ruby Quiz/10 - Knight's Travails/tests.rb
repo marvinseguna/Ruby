@@ -48,16 +48,6 @@ describe '#get_F' do
 	end
 end
 
-describe '#get_lowest_F' do
-
-	context 'provided with a valid list' do
-		it 'returns the value with the lowest F' do
-			open_list = { 34 => [0, 3, 5], 12 => [3, 6, 9] }
-			expect( get_lowest_F open_list ).to eq 34
-		end
-	end
-end
-
 describe '#get_cell_name' do
 
 	context 'provided with a valid cell' do
@@ -71,11 +61,11 @@ describe '#get_valid_moves' do
 
 	context 'provided with a valid cell' do
 		it 'is provided with a value of 23' do
-			expect( get_valid_moves 23 ).to eq [ 35, 11, 15, 31, 44, 02, 04, 42 ]
+			expect( get_valid_moves 23, [] ).to eq [ 35, 11, 15, 31, 44, 02, 04, 42 ]
 		end
 		
 		it 'is provided with a value of 11' do
-			expect( get_valid_moves 11 ).to eq [ 23, 03, 32, 30 ]
+			expect( get_valid_moves 11, [] ).to eq [ 23, 03, 32, 30 ]
 		end
 	end
 end
