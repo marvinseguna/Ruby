@@ -24,18 +24,35 @@ describe '#check_move' do
 	end
 end
 
-describe '#get_movement' do
-	it 'is directed south' do
-		expect( get_movement 's' ).to eq [1, 0]
+describe '#get_next_cell_value' do
+	it 'is a storage, so the @(man) => +' do
+		expect( get_next_cell_value '@', '.' ).to eq '+'
+	end
+	
+	it 'is an open floor, so the o(crate) => o' do
+		expect( get_next_cell_value 'o', ' ' ).to eq 'o'
 	end
 end
 
-describe '#get_cell_value' do
-	it 'transforms a storage to: a man on storage' do
-		expect( get_cell_value '@', '.' ).to eq '+'
+describe '#get_old_cell_value' do
+	it 'was a storage with @(man) => .' do
+		expect( get_old_cell_value '+' ).to eq '.'
 	end
 	
-	it 'transforms a storage to: a crate on storage' do
-		expect( get_cell_value 'o', '.' ).to eq '*'
+	it 'was open floor => open floor' do
+		expect( get_old_cell_value '@' ).to eq ' '
+	end
+end
+
+describe '#get_starting_point' do
+	let(:map) { [[' ', ' ', ' '], ['.', '@', ' '], ['o', ' ', ' ']] }
+	
+	it 'is starting at [1, 1]' do
+		expect( get_starting_point map ).to eq [1, 1]
+	end
+	
+	it 'contains no starting point' do
+		map[1][1] = ' '
+		expect( get_starting_point map ).to eq nil
 	end
 end
