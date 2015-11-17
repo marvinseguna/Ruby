@@ -17,10 +17,61 @@ def check_outers( map, x, y, parent, visited = [] )
 end
 
 def disable_outers( map )
-	for i in 0..map.length - 1 do
-		for j in 0..map[i].length - 1 do
+	( 0..map.length - 1 ).each do |i|
+		( 0..map[i].length - 1 ).each do |j|
 			map = check_outers map, i, j, [i, j]		if map[i][j].downcase == 'x'
 		end
 	end
 	map
+end
+
+def init_crossword( map )
+	labelled_crossword = []
+	
+	( 0..map.length - 1 ).each do |i|
+		labelled_crossword.push []
+		( 0..map[i].length - 1 ).each do |j|
+			labelled_crossword[i].push [-1, -1]
+		end
+	end
+	labelled_crossword
+end
+
+def label_east( map, labelled_crossword, cw_i, cw_j, parent_i = cw_i, parent_j = cw_j )
+	return labelled_crossword		if map[cw_i][cw_j] == 'x' or labelled_crossword[cw_i][cw_j][0] != -1
+	
+	labelled_crossword = label_east map, labelled_crossword, cw_i, cw_j + 1, parent_i, parent_j		if cw_j + 1 < map[0].length
+	labelled_crossword[cw_i][cw_j - 1][0] = [parent_i, parent_j]		if cw_j != parent_j
+	return labelled_crossword
+end
+
+def label_south( map, labelled_crossword, cw_i, cw_j, parent_i = cw_i, parent_j = cw_j )
+	return labelled_crossword		if map[cw_i][cw_j] == 'x' or labelled_crossword[cw_i][cw_j][1] != -1
+	
+	labelled_crossword = label_south map, labelled_crossword, cw_i + 1, cw_j, parent_i, parent_j		if cw_i + 1 < map.length
+	labelled_crossword[cw_i - 1][cw_j][1] = [parent_i, parent_j]		if cw_i != parent_i
+	return labelled_crossword
+end
+
+def label_crossword( map )
+	labelled_crossword = init_crossword map
+	
+	( 0..map.length - 1 ).each do |i|
+		( 0..map[i].length - 1 ).each do |j|
+			labelled_crossword = label_east map, labelled_crossword, i, j
+			labelled_crossword = label_south map, labelled_crossword, i, j
+			
+			map[i][j] = 'l'		if labelled_crossword[i][j].include? [i,j]
+		end
+	end
+	map
+end
+
+def print_crossword( outer, labelled )
+	output = []
+	( 0..outer.length - 1 ).each do |i|
+		( 0..outer[i].length - 1 ).each do |j|
+			
+		end
+	end
 end
