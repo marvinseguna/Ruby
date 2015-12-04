@@ -25,6 +25,9 @@ def is_four_of_a_kind( hand )
 end
 
 def is_full_house( hand )
+	faces = hand.gsub!(/[\sdsch]/, '')
+	full_house = [get_occurence_matches( faces, 3 ), get_occurence_matches( faces, 2 )]
+	full_house.include? nil ? false : true
 end
 
 def is_flush( hand )
@@ -55,4 +58,8 @@ def is_pair( hand )
 end
 
 def is_high_card( hand )
+end
+
+def get_occurence_matches( string, occurrence ) # "Q345QQ7", 3 => "Q", else nil
+	string.split("").group_by{ |val| val }.select{ |key, value| value.size == occurrence }.map(&:first).first
 end
