@@ -57,7 +57,12 @@ class PokerScores
 		same_kind hand, 2
 	end
 
-	def is_high_card( hand )
+	def get_high_card( hand )
+		face = hand.gsub(/[\sdsch]/, '').split("")
+		count = 0
+		
+		face.each{ |val| count += INDEX_RANKING[val] }
+		count
 	end
 
 	#HELPERS
