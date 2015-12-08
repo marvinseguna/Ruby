@@ -13,7 +13,7 @@ def convert_letters( sentence )
 end
 
 def add_arrays( arr_1, arr_2 )
-	[arr_1, arr_2].transpose.map {|x| ( x.reduce( :+ ) - ( 26 * ( x.reduce( :+ ) / 26 ))) + ( 52 * ( x.reduce( :+ ) / 52 )) }
+	[arr_1, arr_2].transpose.map{ |x| ( x.reduce( :+ ) - ( 26 * ( x.reduce( :+ ) / 26 ))) + ( 52 * ( x.reduce( :+ ) / 52 )) }
 end
 
 def get_letters( arr )
