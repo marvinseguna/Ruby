@@ -4,7 +4,7 @@ LETTERS_TO_VALUE = { 'A' => 1, 'B' => 2, 'C' => 3, 'D' => 4, 'E' => 5, 'F' => 6,
 	'N' => 14, 'O' => 15, 'P' => 16, 'Q' => 17, 'R' => 18, 'S' => 19, 'T' => 20, 'U' => 21, 'V' => 22, 'W' => 23, 'X' => 24, 'Y' => 25, 'Z' => 26 }
 
 def split_sentence( sentence )
-	sentence << 'X'		while sentence.length % 5 != 0
+	sentence = sentence + ('X' * ((5 - (sentence.length % 5)) % 5))
 	sentence.scan(/.{1,5}/).join ' ' #split into chunks of 5
 end
 

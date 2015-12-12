@@ -4,7 +4,7 @@ VALUE_TO_LETTERS = { 1 => 'A', 2 => 'B', 3 => 'C', 4 => 'D', 5 => 'E', 6 => 'F',
 def move_jokers( deck, joker_type, increment )
 	index = deck.index joker_type  
 	new_index = index + increment
-	new_index = new_index % 53		if new_index > 53
+	new_index = new_index % 53
 	deck.insert( new_index, deck.delete_at( index ))
 	deck
 end
