@@ -23,7 +23,7 @@ def english_translator( value ) #value will always be 3-length or less
 		english_less_than_100 value
 	else
 		string = NUM_TO_19[div[0]] + ' hundred '
-		string + english_less_than_100( div[1], 'and ' )
+		string + english_less_than_100( div[1] )
 	end
 end
 
@@ -34,12 +34,15 @@ def num_divider( value, divider = 1000, accumulated = 0 )
 	number = ( value % divider ) - accumulated
 	number /= ( divider / 1000 )		if divider > 1000 #201000 => 201
 	
-	string = english_translator number
-	string << " #{NUM_LARGE[get_large_mapping divider / 1000]} "		if number != 0
+	string = ''
+	if number != 0
+		string = english_translator number
+		string = ( string + " #{NUM_LARGE[get_large_mapping divider / 1000]} " ).split.join ' '
+		string = ' ' + string		if value - ( accumulated + ( number * ( divider / 1000 )) ) != 0 and number != 0
+	end
 	
 	accumulated += ( number * ( divider / 1000 ))
 	divider *= 1000
+	
 	num_divider( value, divider, accumulated ) << string
 end
-
-puts num_divider 8000000085
