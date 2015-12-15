@@ -1,7 +1,5 @@
 require 'value_to_english'
 
-REDUCTIONS = { 100 => 2, 1000 => 100, 10000 => 1000, 100000 => 10000, 1000000 => 100000, 10000000 => 1000000, 100000000 => 10000000, 1000000000 => 100000000, 10000000000 => 1000000000 }
-
 def lowest_odd_number_to_10000000000
 	incrementor = 1
 	num_lowest = 0
@@ -26,5 +24,3 @@ def lowest_odd_number_to_10000000000
 	end
 	str_lowest
 end
-
-puts lowest_odd_number_to_10000000000
