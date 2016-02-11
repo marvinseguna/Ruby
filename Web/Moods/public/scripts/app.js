@@ -1,18 +1,28 @@
 function AppViewModel() {
 	var self = this;
+	this.username = ko.observable( "Enter name" ); 
 	
-    this.mood = "happy.jpg";
-	this.userprovidedname = ko.observable( "111111111" ); 
-	
-	$.getJSON("/GetMachineUser", function( returnedMachineUser ) {
-		if( returnedMachineUser == "" ) {
-			
-		}
-		else {
-			var machineUser = returnedMachineUser.machine_user;
-			self.userprovidedname( machineUser ); 
-		}
+	$.getJSON( "/GetPreviousUsername", function( returnedMachineUser ) {
+		var machineUser = returnedMachineUser.machine_user;
+		self.username( machineUser ); 
     }); 
 }
 
-ko.applyBindings(new AppViewModel());
+function AcceptInput( mood ) {
+	var username = appViewModel.username();
+	
+	alert(username);
+	alert(mood);
+	if( username == '' ) { //If username is not provided -> alert
+		alert( 'Kindly provide username before selecting your mood!' );
+	}
+	else { //else, add user in cookie & file system
+		var data = { username : username, mood : mood }
+		$.getJSON("/SaveMood", data, function() {
+			alert( 'Thanks!' );
+		});
+	}
+}
+
+var appViewModel = new AppViewModel();
+ko.applyBindings( appViewModel );

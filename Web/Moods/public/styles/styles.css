@@ -1,0 +1,15 @@
+.happy_image
+{
+	width: 200px; 
+	height: 160px; 
+    background-image: url('/images/happy.jpg');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.happy_image:hover
+{
+    background-image:url('/images/happy_lighter.jpg');
+    background-repeat:no-repeat;
+    background-size: contain;
+	cursor: pointer;
+}

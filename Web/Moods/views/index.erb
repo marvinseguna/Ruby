@@ -12,8 +12,8 @@
 		<script src="scripts/modernizr-2.6.2.min.js"></script>
 		
 		<div id="container">
-			<img data-bind="attr:{ src: '/images/' + mood }"  height="200" width="200"/>
-			<p>Hello <input data-bind="value: userprovidedname" /> !!</p>
+			<div class="happy_image" onclick="AcceptInput('happy')" height="150" width="200"></div> <!-- to bind image name => #data-bind="attr:{ src: '/images/' + mood_happy }" -->
+			<p>Hello <input data-bind="value: username" /> !!</p>
 		</div>
 
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
