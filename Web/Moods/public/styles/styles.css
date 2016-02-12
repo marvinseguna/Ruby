@@ -1,3 +1,25 @@
+.greeting
+{
+	margin-left: 250px;
+	margin-top: 70px;
+	font-size: 32px;
+	width: 800px;
+}
+
+.username
+{
+	font-size: 32px;
+	width: 150px;
+	text-align: center;
+}
+
+.emoticons_space
+{
+	margin-left: 250px;
+	margin-top: 70px;
+	width: 800px;
+}
+
 .happy_image
 {
 	width: 200px; 
@@ -5,6 +27,7 @@
     background-image: url('/images/happy.jpg');
     background-repeat: no-repeat;
     background-size: contain;
+	float: left;
 }
 .happy_image:hover
 {
@@ -12,4 +35,25 @@
     background-repeat:no-repeat;
     background-size: contain;
 	cursor: pointer;
+	float: left;
+}
+
+.sad_image
+{
+	width: 200px; 
+	height: 160px; 
+    background-image: url('/images/sad.jpg');
+    background-repeat: no-repeat;
+    background-size: contain;
+	overflow: hidden;
+	float: left;
+}
+.sad_image:hover
+{
+    background-image:url('/images/sad_lighter.jpg');
+    background-repeat:no-repeat;
+    background-size: contain;
+	cursor: pointer;
+	overflow: hidden;
+	float: left;
 }

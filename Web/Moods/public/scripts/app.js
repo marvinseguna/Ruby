@@ -11,8 +11,6 @@ function AppViewModel() {
 function AcceptInput( mood ) {
 	var username = appViewModel.username();
 	
-	alert(username);
-	alert(mood);
 	if( username == '' ) { //If username is not provided -> alert
 		alert( 'Kindly provide username before selecting your mood!' );
 	}

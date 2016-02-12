@@ -14,7 +14,6 @@ get "/" do
 end
 
 get "/GetPreviousUsername" do
-	puts "cookies name: #{cookies[:name]}"
 	user = ( cookies[ :name ] == nil ? "" : cookies[ :name ] )
 	JSON.generate({ :machine_user => user })
 end
