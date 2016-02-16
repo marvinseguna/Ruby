@@ -15,7 +15,12 @@ end
 
 get "/GetPreviousUsername" do
 	user = ( cookies[ :name ] == nil ? "" : cookies[ :name ] )
-	JSON.generate({ :machine_user => user })
+	JSON.generate({ :previous_user => user })
+end
+
+get "/GetAllUsers" do
+	users = get_users
+	JSON.generate({ :all_users => users })
 end
 
 get "/SaveMood" do

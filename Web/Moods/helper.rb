@@ -1,3 +1,13 @@
+def get_users
+	text = File.open( 'public/data.txt' ).read
+	all_users = []
+	
+	text.each_line do |line| #User: dd/mm/yyyy-hh:mm-M. M = mood
+		all_users.push line.split( ':' ).first
+	end
+	all_users
+end
+
 def save_existing_user_mood( username, mood )
 	text = File.open( 'public/data.txt' ).read
 	line_to_append = ''

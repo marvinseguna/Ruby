@@ -2,10 +2,16 @@ function AppViewModel() {
 	var self = this;
 	this.username = ko.observable( "Enter name" ); 
 	
-	$.getJSON( "/GetPreviousUsername", function( returnedMachineUser ) {
-		var machineUser = returnedMachineUser.machine_user;
-		self.username( machineUser ); 
+	$.getJSON( "/GetPreviousUsername", function( cookieUser ) {
+		var user = cookieUser.previous_user;
+		self.username( user ); 
     }); 
+	
+	$.getJSON( "/GetAllUsers", function( allUsers ) {
+		$( "#user" ).autocomplete({ 
+			source: allUsers.all_users
+		});
+	});
 }
 
 function AcceptInput( mood ) {

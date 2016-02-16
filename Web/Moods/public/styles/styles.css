@@ -1,6 +1,6 @@
 .greeting
 {
-	margin-left: 250px;
+	margin-left: 28%;
 	margin-top: 70px;
 	font-size: 32px;
 	width: 800px;
@@ -15,7 +15,7 @@
 
 .emoticons_space
 {
-	margin-left: 250px;
+	margin-left: 20%;
 	margin-top: 70px;
 	width: 800px;
 }
@@ -24,25 +24,22 @@
 {
 	width: 200px; 
 	height: 160px; 
-    background-image: url('/images/happy.jpg');
+    background-image: url('/images/happy.png');
     background-repeat: no-repeat;
     background-size: contain;
 	float: left;
 }
 .happy_image:hover
 {
-    background-image:url('/images/happy_lighter.jpg');
-    background-repeat:no-repeat;
-    background-size: contain;
+    background-image:url('/images/happy_lighter.png');
 	cursor: pointer;
-	float: left;
 }
 
 .sad_image
 {
 	width: 200px; 
 	height: 160px; 
-    background-image: url('/images/sad.jpg');
+    background-image: url('/images/sad.png');
     background-repeat: no-repeat;
     background-size: contain;
 	overflow: hidden;
@@ -50,10 +47,38 @@
 }
 .sad_image:hover
 {
-    background-image:url('/images/sad_lighter.jpg');
-    background-repeat:no-repeat;
-    background-size: contain;
+    background-image:url('/images/sad_lighter.png');
 	cursor: pointer;
+}
+
+.chill_image
+{
+	width: 200px; 
+	height: 160px; 
+    background-image: url('/images/chill.png');
+    background-repeat: no-repeat;
+    background-size: contain;
 	overflow: hidden;
 	float: left;
+}
+.chill_image:hover
+{
+    background-image:url('/images/chill_lighter.png');
+	cursor: pointer;
+}
+
+.angry_image
+{
+	width: 200px; 
+	height: 160px; 
+    background-image: url('/images/angry.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+	overflow: hidden;
+	float: left;
+}
+.angry_image:hover
+{
+    background-image:url('/images/angry_lighter.png');
+	cursor: pointer;
 }
