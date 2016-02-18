@@ -1,32 +1,25 @@
-function AppViewModel() {
-	var self = this;
-	this.username = ko.observable( "Enter name" ); 
-	
-	$.getJSON( "/GetPreviousUsername", function( cookieUser ) {
-		var user = cookieUser.previous_user;
-		self.username( user ); 
-    }); 
-	
-	$.getJSON( "/GetAllUsers", function( allUsers ) {
-		$( "#user" ).autocomplete({ 
-			source: allUsers.all_users
-		});
-	});
+//SPA functionality
+var app = angular.module( 'moodsApp', [
+  'ngRoute'
+]);
+
+//To access variable from moods.js
+var appViewModel = null;
+function getAppViewModel() {
+	return appViewModel;
 }
 
-function AcceptInput( mood ) {
-	var username = appViewModel.username();
-	
-	if( username == '' ) { //If username is not provided -> alert
-		alert( 'Kindly provide username before selecting your mood!' );
-	}
-	else { //else, add user in cookie & file system
-		var data = { username : username, mood : mood }
-		$.getJSON("/SaveMood", data, function() {
-			alert( 'Thanks!' );
-		});
-	}
-}
+//Page routing
+app.config([ '$routeProvider', function ( $routeProvider ) {
+  $routeProvider
+    .when( "/", { templateUrl: "views/mood_choice.erb", controller: "MoodController" })
+    .when( "/dataview", { templateUrl: "views/data_view.erb", controller: "DataViewController" });
+}]);
 
-var appViewModel = new AppViewModel();
-ko.applyBindings( appViewModel );
+//Controllers for each page
+app.controller( 'MoodController', function () {
+	appViewModel = new AppViewModel();
+	ko.applyBindings( appViewModel );
+});
+app.controller( 'DataViewController', function () {
+});

@@ -1,6 +1,6 @@
 <!DOCTYPE html >
 <html>
-	<body>
+	<body ng-app="moodsApp">
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title>Moods</title>
@@ -11,20 +11,20 @@
 		<link rel="stylesheet" href="styles/styles.css">
 		<script src="scripts/modernizr-2.6.2.min.js"></script>
 		
-		<div class="greeting">
-			<p>How are you feeling today <input id="user" class="username" data-bind="value: username" /> ?</p>
-		</div>
-		<div class="emoticons_space">
-			<div class="happy_image" onclick="AcceptInput('happy')" height="150" width="200"></div> <!-- to bind image name => #data-bind="attr:{ src: '/images/' + mood_happy }" -->
-			<div class="sad_image" onclick="AcceptInput('sad')" height="150" width="200"></div>
-			<div class="chill_image" onclick="AcceptInput('chill')" height="150" width="200"></div>
-			<div class="angry_image" onclick="AcceptInput('angry')" height="150" width="200"></div>
-		</div>
+		<div ng-include='"views/header.erb"'></div>
+		<div ng-view></div>
 		
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	
 		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-route.min.js"></script>
 		<script src="scripts/knockout.js"></script>
 		<script src="scripts/app.js"></script>
+		<script src="scripts/moods.js"></script>
 	</body>
 </html>

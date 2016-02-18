@@ -40,4 +40,5 @@ get "/SaveMood" do
 	else 
 		save_user_mood username, mood
 	end
+	JSON.generate({ :message => 'Thanks!' })
 end
