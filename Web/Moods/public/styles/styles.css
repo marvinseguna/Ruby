@@ -1,3 +1,4 @@
+/* Used for top bar selector */
 .tabs
 {
 	width: 100%;
@@ -5,6 +6,7 @@
 	background-color: lightblue;
 }
 
+/* Bar switching on top bar selector */
 .abutton {
 	-webkit-appearance: button;
 	-moz-appearance: button;
@@ -53,7 +55,7 @@
 }
 
 
-
+/* Greeting message div, username in message and the emoticons div  */
 .greeting
 {
 	margin-left: 28%;
@@ -61,14 +63,12 @@
 	font-size: 32px;
 	width: 800px;
 }
-
 .username
 {
 	font-size: 32px;
 	width: 150px;
 	text-align: center;
 }
-
 .emoticons_space
 {
 	margin-left: 20%;
@@ -76,6 +76,7 @@
 	width: 800px;
 }
 
+/* Images shown in main screen */
 .happy_image
 {
 	width: 200px; 
@@ -137,4 +138,53 @@
 {
     background-image:url('/images/angry_lighter.png');
 	cursor: pointer;
+}
+
+
+/* Grid - outern div */
+.data_display
+{
+	margin-left: 250px;
+	margin-top: 50px;
+	font-size: 28px;
+}
+
+/* Table layout */
+table
+{
+	width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+	margin-top: 70px;
+	background: #C0C0C0
+}
+th
+{
+	text-align: center;
+	font-size: 26px;
+	border-left: 2px solid #4EC3F0;
+	border-top: 2px solid #4EC3F0;
+	border-bottom: 2px solid #4EC3F0;
+	border-right: 2px solid #4EC3F0;
+}
+td
+{
+	padding: 10px;
+	text-align: center;
+	border-left: 2px solid #4EC3F0;
+	border-top: 2px solid #4EC3F0;
+	border-bottom: 2px solid #4EC3F0;
+	border-right: 2px solid #4EC3F0;
+	font-size: 18px;
+}
+.no_border_table
+{
+	border: none;
+}
+.with_double_border
+{
+	border-left: 2px solid #4EC3F0;
+	border-top: 2px solid #4EC3F0;
+	border-bottom: 2px solid #4EC3F0;
+	border-right: 8px double #4EC3F0;
 }
