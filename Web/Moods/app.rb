@@ -42,3 +42,9 @@ get "/SaveMood" do
 	end
 	JSON.generate({ :message => 'Thanks!' })
 end
+
+get "/GetMoodData" do
+	users = get_users
+	mood_data = get_mood_data users, ( Date.today - 7 ).strftime( "%Y%m%d" ).to_i
+	JSON.generate( mood_data )
+end

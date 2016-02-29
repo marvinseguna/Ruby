@@ -22,4 +22,5 @@ app.controller( 'MoodController', function () {
 	ko.applyBindings( appViewModel );
 });
 app.controller( 'DataViewController', function () {
+	fillGrid();
 });
