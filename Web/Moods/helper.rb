@@ -6,6 +6,7 @@ def get_mood_data( users, start_date )
 	mood_data = {}
 	users.each{ |user| 
 		user_data = []
+		prev_data = ""
 		File.read( "public/#{user}.txt" ).split( "\n" ).each{ |daily_info|
 			file_date = daily_info.split( ',' ).first.to_i
 			if file_date >= start_date
@@ -14,10 +15,11 @@ def get_mood_data( users, start_date )
 				
 				mood = daily_info.split( ',' ).last
 				
+				user_data.pop		if "#{file_date}#{hour}" == prev_data
 				user_data.push "#{file_date}|#{hour}|#{mood}"
+				prev_data = "#{file_date}#{hour}"
 			end
 		}
-		puts user_data
 		mood_data[ user ] = user_data
 	}
 	mood_data

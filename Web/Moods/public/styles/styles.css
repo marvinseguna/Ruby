@@ -161,7 +161,6 @@ table
 th
 {
 	text-align: center;
-	font-size: 26px;
 	border-left: 2px solid #4EC3F0;
 	border-top: 2px solid #4EC3F0;
 	border-bottom: 2px solid #4EC3F0;
@@ -175,16 +174,52 @@ td
 	border-top: 2px solid #4EC3F0;
 	border-bottom: 2px solid #4EC3F0;
 	border-right: 2px solid #4EC3F0;
-	font-size: 18px;
 }
-.no_border_table
+
+/*Table format in View data tab*/
+.th_single_border, .td_single_border
 {
 	border: none;
 }
-.with_double_border
+.th_double_border, .td_double_border
 {
 	border-left: 2px solid #4EC3F0;
 	border-top: 2px solid #4EC3F0;
 	border-bottom: 2px solid #4EC3F0;
 	border-right: 8px double #4EC3F0;
+}
+.th_double_border, .th_single_border
+{
+	font-size: 16px;
+}
+.td_double_border, .td_single_border
+{
+	font-size: 12px;
+}
+
+/*calendars placed above table in View Data tab*/
+.calendars_area
+{
+	width: 100%;
+	heighT: 40px;
+	margin-top: 40px;
+	margin-left: 100px;
+	margin-bottom: -30px;
+}
+.calendars, .filter_moods
+{
+	float: left; 
+	margin-right: 20px;
+}
+div.ui-datepicker
+{
+	font-size: 14px;
+}
+.ui-datepickerth
+{
+	font-size: 16px;
+}
+.filter_moods
+{
+	width: 60px;
 }

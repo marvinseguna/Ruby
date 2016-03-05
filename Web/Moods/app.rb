@@ -45,6 +45,6 @@ end
 
 get "/GetMoodData" do
 	users = get_users
-	mood_data = get_mood_data users, ( Date.today - 7 ).strftime( "%Y%m%d" ).to_i
+	mood_data = get_mood_data users, ( Date.today - 6 ).strftime( "%Y%m%d" ).to_i
 	JSON.generate( mood_data )
 end
