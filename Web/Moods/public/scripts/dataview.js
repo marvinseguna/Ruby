@@ -3,6 +3,32 @@ function initCalendars() {
 	$( "#datepickerFrom" ).datepicker();
 }
 
+function getFullDate( date ) {
+	var day = ( "0" + ( date.getDate() )).slice( -2 )
+	var month = ( "0" + ( date.getMonth() + 1 )).slice( -2 )
+	var year = date.getFullYear();
+	
+	var fullDate = day + "/" + month + "/" + year;
+	return fullDate;
+}
+
+function setTableHeaders( dateHeaders, dateFrom, dayDifference ) {
+	var shownDates = {};
+	for( var i = 0; i < dayDifference; i++ ) {		
+		var fullDate = getFullDate( dateFrom );
+		tableColumnHeaders += "<th scope=\"col\" colspan=\"3\" class=\"th_double_border\">" + fullDate + "</th>"
+
+		shownDates[ fullDate ] = i * 3;
+		dateFrom.setDate( dateFrom.getDate() + 1 );
+	}
+	var fullDate = getFullDate( dateFrom );
+	tableColumnHeaders += "<th scope=\"col\" colspan=\"3\">" + fullDate + "</th>"
+	shownDates[ fullDate ] = i * 3;
+	
+	dateHeaders.innerHTML = "<th class=\"th_single_border\"></th>" + tableColumnHeaders;
+	return shownDates;
+}
+
 function fillGrid( dateFrom, dateTo) { //default is 1-week
 	$.getJSON( "/GetMoodData", function( moodData ) {
 		var table = document.getElementById( "moodTable" );
@@ -11,22 +37,10 @@ function fillGrid( dateFrom, dateTo) { //default is 1-week
 		
 		var utc1 = Date.UTC( dateFrom.getFullYear(), dateFrom.getMonth(), dateFrom.getDate() );
 		var utc2 = Date.UTC( dateTo.getFullYear(), dateTo.getMonth(), dateTo.getDate() );
-		var dayDifference = Math.floor((utc2 - utc1) / ( 1000 * 60 * 60 * 24 ));
+		var dayDifference = Math.floor(( utc2 - utc1 ) / ( 1000 * 60 * 60 * 24 ));
 		
 		//Top dates
-		var shownDates = {};
-		for( var i = 0; i < dayDifference; i++ ) {
-			var fullDate = ( "0" + ( dateFrom.getDate())).slice( -2 ) + "/" + ( "0" + ( dateFrom.getMonth() + 1 )).slice( -2 ) + "/" + dateFrom.getFullYear();
-			tableColumnHeaders += "<th scope=\"col\" colspan=\"3\" class=\"th_double_border\">" + fullDate + "</th>"
-
-			shownDates[ fullDate ] = i * 3;
-			dateFrom.setDate( dateFrom.getDate() + 1 );
-		}
-		var fullDate = ( "0" + ( dateFrom.getDate())).slice( -2 ) + "/" + ( "0" + ( dateFrom.getMonth() + 1 )).slice( -2 ) + "/" + dateFrom.getFullYear();
-		tableColumnHeaders += "<th scope=\"col\" colspan=\"3\">" + fullDate + "</th>"
-		shownDates[ fullDate ] = i * 3;
-		
-		dateHeaders.innerHTML = "<th class=\"th_single_border\"></th>" + tableColumnHeaders;
+		shownDates = setTableHeaders dateHeaders, dateFrom, dayDifference
 		
 		//Top times
 		var timeHeaders = table.insertRow( 1 );

@@ -19,7 +19,7 @@ get "/GetPreviousUsername" do
 end
 
 get "/GetAllUsers" do
-	users = get_users
+	@users = get_users		if @users.empty?
 	JSON.generate({ :all_users => users })
 end
 
@@ -28,23 +28,19 @@ get "/SaveMood" do
 	mood = params[ 'mood' ]
 
 	cookies[ :name ] = username
-	if @users.empty?
-		data = File.open( 'public/data.txt' ).read
-		data.each_line do |line| #User: dd/mm/yyyy-hh:mm-M. M = mood
-			@users.push line.split( ':' ).first
-		end
+	@users = get_users		if @users.empty?
+	
+	if !@users.include? username
+		create_entry_and_file username
+		@users.push username
 	end
 	
-	if @users.include? username 
-		save_existing_user_mood username, mood
-	else 
-		save_user_mood username, mood
-	end
+	insert_entry username, mood
 	JSON.generate({ :message => 'Thanks!' })
 end
 
 get "/GetMoodData" do
-	users = get_users
-	mood_data = get_mood_data users, ( Date.today - 6 ).strftime( "%Y%m%d" ).to_i
+	users = get_users		if @users.empty?
+	mood_data = get_moods users, ( Date.today - 6 ).strftime( "%Y%m%d" ).to_i
 	JSON.generate( mood_data )
 end

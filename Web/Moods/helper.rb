@@ -1,48 +1,46 @@
 def get_users
-	File.read( 'public/data.txt' ).split( "\n" )
+	File.read( 'public/data.txt' ).split
 end
 
-def get_mood_data( users, start_date )
-	mood_data = {}
+def fill_user_data( user_data, prev_data, moods_info, start_date )
+	date = moods_info.split( ',' ).first.to_i
+	
+	if date >= start_date
+		hour = moods_info.split( ',' )[ 1 ].to_i
+		hour = ( "0900" if hour < 1300 ) || ( 1300 if hour < 1700) || 1700
+		
+		mood = moods_info.split( ',' ).last
+		
+		user_data.pop		if "#{date}#{hour}" == prev_data
+		user_data.push "#{date}|#{hour}|#{mood}"
+		prev_data = "#{date}#{hour}"
+	end
+	prev_data
+end
+
+def get_moods( users, start_date )
+	moods = {}
+	
 	users.each{ |user| 
 		user_data = []
 		prev_data = ""
-		File.read( "public/#{user}.txt" ).split( "\n" ).each{ |daily_info|
-			file_date = daily_info.split( ',' ).first.to_i
-			if file_date >= start_date
-				hour = daily_info.split( ',' )[ 1 ].to_i
-				hour = ( "0900" if hour < 1300 ) || ( 1300 if hour < 1700) || 1700
-				
-				mood = daily_info.split( ',' ).last
-				
-				user_data.pop		if "#{file_date}#{hour}" == prev_data
-				user_data.push "#{file_date}|#{hour}|#{mood}"
-				prev_data = "#{file_date}#{hour}"
-			end
+		
+		File.read( "public/#{user}.txt" ).split.each{ |moods_info|
+			prev_data = fill_user_data user_data, prev_data, moods_info, start_date
 		}
-		mood_data[ user ] = user_data
+		moods[ user ] = user_data
 	}
-	mood_data
+	moods
 end
 
-def save_existing_user_mood( username, mood )
-	text = File.open( 'public/data.txt' ).read
-	line_to_append = ''
-	
-	text.each_line do |line| #User: dd/mm/yyyy-hh:mm-M. M = mood
-		user = line.split( ':' ).first
-		if user == username
-			line_to_append = line.strip #cut out carriage return
-			break
-		end
-	end
-	
-	new_data = Time.now.strftime( "%d/%m/%Y-%H:%M" ) + '-' + mood[ 0 ]
-	new_text = text.gsub line_to_append, line_to_append + ", #{new_data}"
-	File.open( 'public/data.txt', "w" ) { |file| file.puts new_text }
+def create_enty_and_file( username )
+	File.open( 'public/data.txt', 'a+' ) { |f| f.write username }
+	File.new( "public/#{username}.txt", "w+" )
 end
 
-def save_user_mood( username, mood )
-	new_line = "#{username}: #{Time.now.strftime( "%d/%m/%Y-%H:%M" )}-#{mood[ 0 ]}"
-	File.open( 'public/data.txt', "a+" ) { |file| file.puts new_line }
+def insert_entry( username, mood )
+	File.open( "public/#{username}.txt", 'a+' ) { |f| 
+		time = Time.now
+		f.write "#{time.strftime("%Y%m%d")},#{time.strftime("%H%M")},#{mood}"
+	}
 end
