@@ -41,6 +41,6 @@ end
 def insert_entry( username, mood )
 	File.open( "public/#{username}.txt", 'a+' ) { |f| 
 		time = Time.now
-		f.write "#{time.strftime("%Y%m%d")},#{time.strftime("%H%M")},#{mood}"
+		f.write "\n#{time.strftime("%Y%m%d")},#{time.strftime("%H%M")},#{mood[ 0 ]}"
 	}
 end

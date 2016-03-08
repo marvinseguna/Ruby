@@ -20,7 +20,7 @@ end
 
 get "/GetAllUsers" do
 	@users = get_users		if @users.empty?
-	JSON.generate({ :all_users => users })
+	JSON.generate({ :all_users => @users })
 end
 
 get "/SaveMood" do
@@ -40,7 +40,7 @@ get "/SaveMood" do
 end
 
 get "/GetMoodData" do
-	users = get_users		if @users.empty?
-	mood_data = get_moods users, ( Date.today - 6 ).strftime( "%Y%m%d" ).to_i
+	@users = get_users		if @users.empty?
+	mood_data = get_moods @users, ( Date.today - 6 ).strftime( "%Y%m%d" ).to_i
 	JSON.generate( mood_data )
 end
